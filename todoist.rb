@@ -58,14 +58,8 @@ class Todoist
     end
 
     def api_request(request_url)
-      response = open(request_url)
-      response_code, response_message = response.status
-
-      if response_code == "200"
+      open(request_url, redirect: false) {|response|
         JSON.parse(response.read)
-      else
-        #FIXME: エラーハンドリングちゃんとやる
-        puts "取得に失敗しました。 response_message: #{response_message}"
-      end
+      }
     end
 end
