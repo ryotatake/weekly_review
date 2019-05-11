@@ -13,6 +13,8 @@ class Todoist
   end
 
   def get_completed_items(offset: 0, since: Date.today)
+    # sinceにdateオブジェクトを渡す際には、システム側か環境変数でタイムゾーンを日本にしておくこと。
+
     acquired_items = request_completed_items(offset: offset, since: since)
 
     if acquired_items.count > 0
@@ -27,6 +29,9 @@ class Todoist
   private
 
     def self.parse_japanese_date(date_localtime_ja)
+      # Todoistの時刻のフォーマットは `YYYY-MM-DDT00:00`
+      # Todoistの標準では標準時刻が使われているので、時差分を引く。
+
       time_difference = 9
       parsed_date     = (date_localtime_ja - 1).to_s
       parsed_time     = "T#{24 - time_difference}:00"
