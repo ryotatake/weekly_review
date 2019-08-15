@@ -12,6 +12,12 @@ class Todoist
     @items = []
   end
 
+  def hoge
+    _since          = Todoist.parse_japanese_date(Date.today)
+    params          = create_params(0, _since)
+    request_url   = create_url("completed/get_all", params)
+  end
+
   def get_completed_items(offset: 0, since: Date.today)
     # sinceにdateオブジェクトを渡す際には、システム側か環境変数でタイムゾーンを日本にしておくこと。
 
